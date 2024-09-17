@@ -1,0 +1,75 @@
+@model instructor
+@{
+    SelectList deptList = new SelectList(ViewBag.deptList, "id", "name");
+    SelectList courseLit = new SelectList(ViewBag.courseList, "id", "name");
+    Layout = "_myLayout";
+}
+
+<h1>New Instructor</h1>
+
+<form method="post" action="/instructor/saveNew" >
+    @* get send in query string, post send in request data *@
+    
+    <div asp-validation-summary="All"  class="text-danger"></div>
+    <div>
+        <label>Name</label>
+        @* input name must match property name in model  *@
+        @* identity - auto complete filed / PK- donot read from user !   *@
+
+        @* // you do not need send Model here, if null asp-for handle it *@
+        <input asp-for="Name" class="form-control"/>
+        
+    @*     @Html.TextBoxFor(i=>i.Name, new {style="color:red", *@
+    @* placeholder="Enter your name", @class="form-control" }) *@
+        
+        @* not set type number, and not support all types, so you can use .Editor *@
+        @* @Html.EditorFor(s =>s.Name , new {htmlAttributes= new {style="color:red", *@
+        @*     placeholder="Enter your name", @class="form-control" }} ) *@
+    </div>
+    <div>
+        <label>Salary</label>
+        <input asp-for="Salary" class="form-control"/>
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div>
+        <label>Image</label>
+        @* <input asp-for="Image"  class="form-control" type="file"/> *@
+        <input asp-for="Image"  class="form-control" />
+        <span asp-validation-for="Image"  class="text-danger"></span>
+    </div>
+    <div>
+        <label>Course Name</label>
+        @* <input asp-for="CourseId"  class="form-control"/> *@
+        <select class="form-control" asp-items="courseLit" asp-for="CourseId">
+            <option value="0" selected>Select Option</option>
+        </select>
+        
+        
+    </div>
+    <div>
+        <label asp-for="DeptId">Department Name</label>
+        @* <input asp-for="DeptId" class="form-control"/> *@
+        <select class="form-control" asp-items="deptList" asp-for="DeptId"></select>
+        @* by def: assign selected item, if u want custom it do through more one parameter, in selectedlist *@
+    </div>
+
+    <br/>
+    <input type="submit" value="Add . . . " class=" btn-getstarted flex-md-shrink-0"/>
+    <br/>
+</form>
+    <br/>
+
+<a href="/instructor/index">Back to list</a>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+@* benefit of type email :  
+User Experience : in some browsers like showing a tooltip when the input is invalid or suggesting common email domains.
+Autocomplete   :  --- 
+Accessibility  : save for next time
+Validation     : email pattern
+Input Patterns : keyboard chars
+*@

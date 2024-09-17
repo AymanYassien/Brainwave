@@ -1,0 +1,124 @@
+@model instructor
+@{
+    SelectList deptList = new SelectList(ViewBag.deptList, "id", "name");
+    SelectList courseLit = new SelectList(ViewBag.courseList, "id", "name");
+    Layout = "_myLayout";
+}
+<h1>Edit</h1>
+
+<form method="post" action="/instructor/saveEdit/@Model.id">
+    @* $1$ <input type="hidden" name = "id" value="@Model.id"/> #1#   // this or put id in action ,
+     must use one *@
+    
+    <div>
+        <label>Name</label>
+        @* input name must match property name in model  *@
+        @* identity - auto complete filed / PK- donot read from user !   *@
+            
+        @* name to handle user in server side from name to parameter in action, id to handle in js,
+             value to display it in fields *@
+        <input type="text" name="Name"  id="Name" value="@Model.Name" class="form-control"/>
+    </div>
+    <div>
+        <label>Salary</label>
+        <input type="number" name="Salary"  id="Salary"  value="@Model.Salary" class="form-control"/>
+    </div>
+    <div>
+        <label>Image</label>
+        <input type="text" name="Image"  id="Image" value="@Model.Image" class="form-control"/>
+    </div>
+    
+    <div>
+        <label>Course Name</label>
+        @* <input asp-for="CourseId"  class="form-control"/> *@
+        <select class="form-control" asp-items="courseLit" asp-for="CourseId">
+            <option value="0" selected>Select Option</option>
+        </select>
+            
+            
+    </div>
+    
+    @* <div> *@
+    @*     <label>Course Id</label> *@
+    @*     $1$ <input type="number" name="CourseId" id="CourseId" value="@Model.CourseId" class="form-control" /> #1# *@
+    @*     <select name="CourseId" id="CourseId"> *@
+    @*         @foreach (Course courseItem in ViewBag.courseList) *@
+    @*         { *@
+    @* *@
+    @*             if (Model.CourseId == courseItem.id) *@
+    @*             { *@
+    @*                 <option value="@courseItem.id" selected>@courseItem.name</option>  *@
+    @*             } *@
+    @*             else *@
+    @*             { *@
+    @*                 <option value="@courseItem.id">@courseItem.name</option>     *@
+    @*             } *@
+    @*                  *@
+    @*             // value is a value will save in database but between tags value will display on screen *@
+    @*             // if not set value will return name *@
+    @*         } *@
+    @*     </select> *@
+    @* </div> *@
+    
+    <div>
+        <label asp-for="DeptId">Department Name</label>
+        @* <input asp-for="DeptId" class="form-control"/> *@
+        <select class="form-control" asp-items="deptList" asp-for="DeptId"></select>
+        @* by def: assign selected item, if u want custom it do through more one parameter, in selectedlist *@
+    </div>
+    
+    @* <div> *@
+    @*     <label>DeptId</label> *@
+    @*     $1$ <input type="number" name="DeptId" id="DeptId"  value="@Model.DeptId" class="form-control"/> #1# *@
+    @*     <select name="DeptId" id="DeptId"> *@
+    @*         @foreach (newDepartment deptItem in ViewBag.deptList) *@
+    @*         { *@
+    @*             if (Model.DeptId == deptItem.id) *@
+    @*             { *@
+    @*                 <option value="@deptItem.id"  selected >@deptItem.name</option>  *@
+    @*             } *@
+    @*             else *@
+    @*             { *@
+    @*                 <option value="@deptItem.id">@deptItem.name</option>  *@
+    @*             } *@
+    @*                              *@
+    @*             // value is a value will save in database but between tags value will display on screen *@
+    @*             // if not set value will return name *@
+    @*         } *@
+    @*     </select> *@
+    @* </div> *@
+    
+     <br/>
+        <input type="submit" value="Modify" class=" btn-getstarted flex-md-shrink-0"/>
+        <br/>
+    </form>
+        <br/>
+
+
+@section script
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+    function GetData(instID)
+    {
+            event.preventDefault();
+            console.log(instID);
+         
+        $.ajax(
+            {
+                url: "/Instructor/DetailsWithPartialView/" + instID,
+                success: function(result)
+                {
+                    console.log(result);
+                    document.getElementById("InstructorDetails").innerHTML = result;
+                }
+            }
+          );
+        
+            
+        
+
+    }
+</script>
+}

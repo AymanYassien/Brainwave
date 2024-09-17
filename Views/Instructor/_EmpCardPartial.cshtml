@@ -1,0 +1,12 @@
+@model instructor
+
+<div class="card" style="width:400px">
+    <img class="card-img-top" src="/images/@Model.Image" alt="Card image" style="width:100%">
+    @*with this '/' domain will be this:"/images/img with full path" || 
+    with no slash  =>  "localhost/controller/action/images/imgPath"*@
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name</h4>
+        <p class="card-text">@Model.Course - @Model.Salary</p>
+        <a href="#" class="btn btn-primary">See Profile</a>
+    </div>
+</div>

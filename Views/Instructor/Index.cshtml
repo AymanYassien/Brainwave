@@ -1,0 +1,65 @@
+@model List<instructor>
+
+@{
+    Layout = "_myLayout";
+}
+<h1>Instructors</h1>
+<a href="/Instructor/new"> Add New instructor</a>
+
+<div style="border:3px solid blue" id="InstructorDetails"></div>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        @* <th>Address</th> *@
+        @* <th>Card</th> *@
+        <th>Edit Data</th>
+        <th>Delete</th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>@item.id</th>
+            
+            @* # mean keep in current page *@
+            <th><a href="#"  onclick="GetData(@item.id)">@item.Name</a></th>  
+            
+            @* <th>@item.Address</th> *@
+            @* <th>@item.Salary</th> *@
+            @* <th><partial name="_EmpCardPartial"  model="item"/></th> *@
+            <th><a href="/instructor/Edit/@item.id">Edit</a></th>
+            <th><a href="/instructor/Delete/@item.id">Delete</a></th>
+            
+        </tr>
+    }
+</table>
+
+@section script
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+    function GetData(instID)
+    {
+            event.preventDefault();
+            console.log(instID);
+         
+        $.ajax(
+            {
+                url: "/Instructor/DetailsWithPartialView/" + instID,
+                success: function(result)
+                {
+                    console.log(result);
+                    document.getElementById("InstructorDetails").innerHTML = result;
+                }
+            }
+          );
+        
+            
+        
+
+    }
+</script>
+}
